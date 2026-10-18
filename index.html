@@ -55,10 +55,11 @@ function nav(){$("#nav").innerHTML=TABS.map(t=>`<button class="${tab==t[0]?'on':
 function go(t){tab=t;nav();render()}
 function igCard(){return `<div class="card"><h2>📸 ఇన్‌స్టాగ్రామ్</h2><p class="mu">మన ఊరి ఫోటోలు, వీడియోలు, తాజా వార్తల కోసం మా అధికారిక పేజీని ఫాలో అవ్వండి.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ig" href="${IG}" target="_blank" rel="noopener">@mana_singampalli ని చూడండి</a>${WA?`<a class="btn" style="background:#25d366;color:#06330f" href="${WA}" target="_blank" rel="noopener">💬 WhatsApp గ్రూప్</a>`:""}</div></div>`}
 function render(){
- const m=$("#m");
- if(tab=="feed"){
-  m.innerHTML=igCard()+`<div class="card"><h2>✍️ మీ పోస్ట్</h2>${me?`<textarea id="pt" rows="3" placeholder="ఊరి వార్త, ప్రకటన, సహాయం కావాలి..."></textarea><label class="mu">🖼️ ఫోటో జోడించండి (ఐచ్ఛికం)</label><input type="file" accept="image/*" onchange="pickPost(this)"><img id="pp" class="pimg hid" alt=""><div class="row"><button class="btn s" onclick="aiPost()">✨ AI తో అందంగా రాయి</button><button class="btn" onclick="addPost()">పోస్ట్ చేయి</button></div>`:`<p class="mu">పోస్ట్ చేయడానికి ముందు “నమోదు” లో మొబైల్ నంబర్‌తో రిజిస్టర్ చేసుకోండి.</p><button class="btn" onclick="go('reg')">నమోదు</button>`}</div><div id="pl"></div>`;
-  drawPosts();
- }else if(tab=="svc"){
-  const list=members.filter(x=>cat=="అన్నీ"||x.cat==cat);
-  m.innerHTML=(adm()?'<button class="btn" style="width:100%;margin-bottom:10px" onclick="openAdm()">➕ కొత్త సభ్యుడిని చేర్చు</button>':"")+`<div class="chips">${["అన్నీ",...CATS.map(c=>c[1])].map(c=>`<button class="chip ${c==cat?'on':''}" onclick="setCat(
+ const m=$("#m");
+ if(tab=="feed"){
+  m.innerHTML=igCard()+`<div class="card"><h2>✍️ మీ పోస్ట్</h2>${me?`<textarea id="pt" rows="3" placeholder="ఊరి వార్త, ప్రకటన, సహాయం కావాలి..."></textarea><label class="mu">🖼️ ఫోటో జోడించండి (ఐచ్ఛికం)</label><input type="file" accept="image/*" onchange="pickPost(this)"><img id="pp" class="pimg hid" alt=""><div class="row"><button class="btn s" onclick="aiPost()">✨ AI తో అందంగా రాయి</button><button class="btn" onclick="addPost()">పోస్ట్ చేయి</button></div>`:`<p class="mu">పోస్ట్ చేయడానికి ముందు “నమోదు” లో మొబైల్ నంబర్‌తో రిజిస్టర్ చేసుకోండి.</p><button class="btn" onclick="go('reg')">నమోదు</button>`}</div><div id="pl"></div>`;
+  drawPosts();
+ }else if(tab=="svc"){
+  const list=members.filter(x=>cat=="అన్నీ"||x.cat==cat);
+  m.innerHTML=(adm()?'<button class="btn" style="width:100%;margin-bottom:10px" onclick="openAdm()">➕ కొత్త సభ్యుడిని చేర్చు</button>':"")+`<div class="chips">${["అన్నీ",...CATS.map(c=>c[1])].map(c=>`<button class="chip ${c==cat?'on':''}" onclick="setCat(
+  ఇనదులో ఆ కోడ్ ని add చేసి ఇవ్వు 

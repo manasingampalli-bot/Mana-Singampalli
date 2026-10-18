@@ -65,153 +65,194 @@
 
     <script>
         document.getElementById('posterForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // పేజ్ రీఫ్రెష్ అవ్వకుండా పూర్తిగా ఆపుతుంది
 
-            const name = document.getElementById('userName').value.toUpperCase();
-            const phone = document.getElementById('userPhone').value;
-            const profession = document.getElementById('userProfession').value;
-            const exp = document.getElementById('userExp').value;
-            const photoFile = document.getElementById('userPhoto').files[0];
+            try {
+                const name = document.getElementById('userName').value.toUpperCase();
+                const phone = document.getElementById('userPhone').value;
+                const profession = document.getElementById('userProfession').value;
+                const exp = document.getElementById('userExp').value;
+                const photoFile = document.getElementById('userPhoto').files[0];
 
-            const canvas = document.getElementById('posterCanvas');
-            const ctx = canvas.getContext('2d');
+                const canvas = document.getElementById('posterCanvas');
+                const ctx = canvas.getContext('2d');
 
-            // 1. Background
-            ctx.fillStyle = '#f8fafc';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                // 1. Background
+                ctx.fillStyle = '#f8fafc';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 2. Top White Banner
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, 110);
-
-            // 3. Logo Emblem
-            ctx.fillStyle = '#fde047';
-            ctx.beginPath();
-            ctx.arc(45, 40, 22, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = '#b45309';
-            ctx.beginPath();
-            ctx.moveTo(25, 48); ctx.lineTo(45, 25); ctx.lineTo(65, 48); ctx.closePath();
-            ctx.fill();
-            ctx.fillStyle = '#78350f';
-            ctx.fillRect(35, 48, 20, 15);
-
-            // 4. Branding Text
-            ctx.fillStyle = '#0a5829';
-            ctx.font = 'bold 20px Arial';
-            ctx.fillText('MANA SINGAMPALLI', 80, 38);
-
-            ctx.fillStyle = '#0a5829';
-            ctx.beginPath();
-            if (ctx.roundRect) ctx.roundRect(80, 48, 215, 24, 12);
-            else ctx.rect(80, 48, 215, 24);
-            ctx.fill();
-
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 11px Arial';
-            ctx.fillText('SINGAMPALLI CAREERS & SERVICES', 88, 64);
-
-            ctx.fillStyle = '#64748b';
-            ctx.font = '11px sans-serif';
-            ctx.fillText('మన సింగంపల్లి - మన ఊరి సేవలు', 80, 92);
-
-            // 5. Tagline
-            ctx.fillStyle = '#0284c7';
-            ctx.font = 'italic bold 14px Arial';
-            ctx.textAlign = 'right';
-            ctx.fillText('Serving With Excellence,', 580, 40);
-            ctx.fillText('Dedicated To Quality Everyday', 580, 60);
-
-            // 6. Main Header
-            ctx.textAlign = 'left';
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 22px Arial';
-            ctx.fillText('Meet', 20, 140);
-            ctx.fillStyle = '#0a5829';
-            ctx.font = 'bold 30px Arial';
-            ctx.fillText(name, 20, 175);
-            ctx.fillStyle = '#0284c7';
-            ctx.font = 'bold 18px Arial';
-            ctx.fillText(profession, 20, 202);
-
-            ctx.fillStyle = '#334155';
-            ctx.font = '14px Arial';
-            ctx.fillText('📍 Singampalli, Andhra Pradesh', 20, 228);
-
-            // 7. Badges
-            const drawBadge = (x, y, text) => {
-                ctx.fillStyle = '#e0f2fe';
-                ctx.beginPath();
-                if (ctx.roundRect) ctx.roundRect(x, y, 132, 42, 8);
-                else ctx.rect(x, y, 132, 42);
-                ctx.fill();
-                ctx.fillStyle = '#0369a1';
-                ctx.font = 'bold 11px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText(text, x + 66, y + 26);
-            };
-
-            drawBadge(20, 248, exp);
-            drawBadge(160, 248, 'Within Village & Surrounds');
-            drawBadge(300, 248, 'Telugu & English');
-            drawBadge(440, 248, 'Always Available');
-
-            // 8. Service Category 1
-            ctx.fillStyle = '#0a5829';
-            ctx.beginPath();
-            if (ctx.roundRect) ctx.roundRect(20, 310, 560, 36, 6);
-            else ctx.rect(20, 310, 560, 36);
-            ctx.fill();
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 15px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText('🛠️ PRIMARY SERVICES & EXPERT WORK', 32, 333);
-
-            const drawThumb = (x, y, label) => {
+                // 2. Top White Banner
                 ctx.fillStyle = '#ffffff';
-                ctx.strokeStyle = '#cbd5e1';
-                ctx.lineWidth = 1;
+                ctx.fillRect(0, 0, canvas.width, 110);
+
+                // 3. Logo Emblem
+                ctx.fillStyle = '#fde047';
                 ctx.beginPath();
-                if (ctx.roundRect) ctx.roundRect(x, y, 85, 75, 6);
-                else ctx.rect(x, y, 85, 75);
-                ctx.fill(); ctx.stroke();
+                ctx.arc(45, 40, 22, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#b45309';
+                ctx.beginPath();
+                ctx.moveTo(25, 48); ctx.lineTo(45, 25); ctx.lineTo(65, 48); ctx.closePath();
+                ctx.fill();
+                ctx.fillStyle = '#78350f';
+                ctx.fillRect(35, 48, 20, 15);
+
+                // 4. Branding Text
+                ctx.fillStyle = '#0a5829';
+                ctx.font = 'bold 20px Arial';
+                ctx.fillText('MANA SINGAMPALLI', 80, 38);
+
+                ctx.fillStyle = '#0a5829';
+                ctx.fillRect(80, 48, 215, 24);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 11px Arial';
+                ctx.fillText('SINGAMPALLI CAREERS & SERVICES', 88, 64);
+
+                ctx.fillStyle = '#64748b';
+                ctx.font = '11px sans-serif';
+                ctx.fillText('మన సింగంపల్లి - మన ఊరి సేవలు', 80, 92);
+
+                // 5. Tagline
+                ctx.fillStyle = '#0284c7';
+                ctx.font = 'italic bold 14px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText('Serving With Excellence,', 580, 40);
+                ctx.fillText('Dedicated To Quality Everyday', 580, 60);
+
+                // 6. Main Header
+                ctx.textAlign = 'left';
                 ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 22px Arial';
+                ctx.fillText('Meet', 20, 140);
+                ctx.fillStyle = '#0a5829';
+                ctx.font = 'bold 30px Arial';
+                ctx.fillText(name, 20, 175);
+                ctx.fillStyle = '#0284c7';
+                ctx.font = 'bold 18px Arial';
+                ctx.fillText(profession, 20, 202);
+
+                ctx.fillStyle = '#334155';
+                ctx.font = '14px Arial';
+                ctx.fillText('📍 Singampalli, Andhra Pradesh', 20, 228);
+
+                // 7. Badges
+                const drawBadge = (x, y, text) => {
+                    ctx.fillStyle = '#e0f2fe';
+                    ctx.fillRect(x, y, 132, 42);
+                    ctx.fillStyle = '#0369a1';
+                    ctx.font = 'bold 11px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(text, x + 66, y + 26);
+                };
+
+                drawBadge(20, 248, exp);
+                drawBadge(160, 248, 'Within Village & Surrounds');
+                drawBadge(300, 248, 'Telugu & English');
+                drawBadge(440, 248, 'Always Available');
+
+                // 8. Service Category 1
+                ctx.fillStyle = '#0a5829';
+                ctx.fillRect(20, 310, 560, 36);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 15px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('🛠️ PRIMARY SERVICES & EXPERT WORK', 32, 333);
+
+                const drawThumb = (x, y, label) => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.lineWidth = 1;
+                    ctx.fillRect(x, y, 85, 75);
+                    ctx.strokeRect(x, y, 85, 75);
+                    ctx.fillStyle = '#0f172a';
+                    ctx.font = 'bold 11px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(label, x + 42.5, y + 42);
+                };
+
+                for(let i=0; i<6; i++) {
+                    drawThumb(20 + (i * 92), 360, 'Service ' + (i+1));
+                }
+
+                // 9. Service Category 2
+                ctx.fillStyle = '#0284c7';
+                ctx.fillRect(20, 455, 560, 36);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 15px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('⚡ SPECIALIZED SUPPORT & CARE', 32, 478);
+
+                for(let i=0; i<6; i++) {
+                    drawThumb(20 + (i * 92), 505, 'Advanced ' + (i+1));
+                }
+
+                // 10. Contact Footer
+                ctx.fillStyle = '#0a5829';
+                ctx.fillRect(20, 680, 300, 55);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 13px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText('📞 Contact Now', 40, 702);
+                ctx.font = 'bold 20px Arial';
+                ctx.fillText(phone, 40, 725);
+
+                // 11. Instagram
+                ctx.fillStyle = '#d946ef';
+                ctx.font = 'bold 13px Arial';
+                ctx.fillText('📸 Follow Us On Instagram', 345, 702);
+                ctx.fillStyle = '#0f172a';
+                ctx.font = 'bold 15px Arial';
+                ctx.fillText('@mana_singampalli', 345, 725);
+
+                // 12. Trust Strip
+                ctx.fillStyle = '#064e3b';
+                ctx.fillRect(0, 755, 600, 45);
+                ctx.fillStyle = '#ffffff';
                 ctx.font = 'bold 11px Arial';
                 ctx.textAlign = 'center';
-                ctx.fillText(label, x + 42.5, y + 42);
-            };
+                ctx.fillText('✓ Quality Assurance   |   ✓ Community Trust   |   ✓ Dedicated Service   |   ✓ Village Welfare', 300, 782);
 
-            for(let i=0; i<6; i++) {
-                drawThumb(20 + (i * 92), 360, 'Service ' + (i+1));
+                // 13. Base Footer
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect(0, 800, 600, 100);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 18px Arial';
+                ctx.fillText('SINGAMPALLI', 300, 835);
+                ctx.font = '13px Arial';
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('Singampalli, Andhra Pradesh', 300, 858);
+
+                // 14. Draw User Photo
+                if (photoFile) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            ctx.save();
+                            ctx.beginPath();
+                            ctx.rect(435, 120, 145, 115);
+                            ctx.clip();
+                            ctx.drawImage(img, 435, 120, 145, 115);
+                            ctx.restore();
+
+                            ctx.strokeStyle = '#0a5829';
+                            ctx.lineWidth = 3;
+                            ctx.strokeRect(435, 120, 145, 115);
+
+                            document.getElementById('posterContainer').style.display = 'block';
+                            document.getElementById('downloadPosterBtn').href = canvas.toDataURL('image/png');
+                            document.getElementById('posterContainer').scrollIntoView({ behavior: 'smooth' });
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(photoFile);
+                }
+            } catch (err) {
+                console.error(err);
+                alert("పోస్టర్ తయారీలో లోపం ఏర్పడింది: " + err.message);
             }
-
-            // 9. Service Category 2
-            ctx.fillStyle = '#0284c7';
-            ctx.beginPath();
-            if (ctx.roundRect) ctx.roundRect(20, 455, 560, 36, 6);
-            else ctx.rect(20, 455, 560, 36);
-            ctx.fill();
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 15px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText('⚡ SPECIALIZED SUPPORT & CARE', 32, 478);
-
-            for(let i=0; i<6; i++) {
-                drawThumb(20 + (i * 92), 505, 'Advanced ' + (i+1));
-            }
-
-            // 10. Contact Footer
-            ctx.fillStyle = '#0a5829';
-            ctx.beginPath();
-            if (ctx.roundRect) ctx.roundRect(20, 680, 300, 55, 25);
-            else ctx.rect(20, 680, 300, 55);
-            ctx.fill();
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 13px Arial';
-            ctx.textAlign = 'left';
-            ctx.fillText('📞 Contact Now', 40, 702);
-            ctx.font = 'bold 20px Arial';
-            ctx.fillText(phone, 40, 725);
-
-            // 11. Instagram
-            ctx.fillStyle =
+        });
+    </script>
+</body>
+</html>

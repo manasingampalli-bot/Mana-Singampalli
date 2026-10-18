@@ -25,41 +25,168 @@ h2{font-size:18px;margin:4px 0 12px}input,select,textarea{width:100%;padding:11p
 .hid{display:none}.pc{display:flex;gap:14px;align-items:flex-start}.big{width:108px;height:108px;border-radius:16px;object-fit:cover;flex:none;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:700}.pc .in{flex:1;min-width:0}.pc h3{margin:0 0 6px;font-size:17px}.pc p{margin:6px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.pb .tiles{grid-template-columns:repeat(4,1fr)}.tiles div{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:5px 2px;text-align:center;font-size:10px;line-height:1.25;overflow:hidden}.tiles b{display:block;font-size:20px;font-weight:400}.pb .tiles div{font-size:12px}.tg{font-style:italic;color:var(--mu)}.tiles .ti{aspect-ratio:1;background-size:cover;background-position:center;position:relative;padding:0;border:0}.ti span{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);color:#fff;font-size:10px;padding:2px 1px;line-height:1.2}.pb .ti span{font-size:12px}.pst{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;margin-bottom:12px;display:flex;flex-direction:column}.grid .pst{margin:0}.ph{background:linear-gradient(135deg,#4e2c12,#c2570c);color:#fff;padding:7px 10px;display:flex;justify-content:space-between;align-items:baseline;font-size:13px}.ph small{font-size:10px;opacity:.9}.pp2{width:100%;aspect-ratio:1;object-fit:cover;display:flex;align-items:center;justify-content:center;background:var(--bd);font-size:54px;font-weight:700;color:var(--pr)}.pb div.pp2{aspect-ratio:4/3}.pb img.pp2{aspect-ratio:auto;height:auto;max-height:none;object-fit:contain}.pi{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}.pi h3{margin:0;font-size:15px}.pi p{margin:0;font-size:12px}.bd2{display:flex;flex-wrap:wrap;gap:4px}.bd2 span{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:2px 6px;font-size:11px}.sv{display:flex;flex-wrap:wrap;gap:4px}.sv i{font-style:normal;background:var(--bd);border-radius:8px;padding:2px 7px;font-size:11px}.pi .btn{text-align:center;padding:9px 6px;font-size:13px;margin-top:auto;background:#f5b82e;color:#1a1300}.pb .pi h3{font-size:18px}.pb .pi p,.pb .bd2 span,.pb .sv i{font-size:13px}.pimg{width:100%;height:auto;max-height:none;object-fit:contain;border-radius:12px;margin-top:6px;display:block}.av{width:48px;height:48px;border-radius:50%;object-fit:cover;background:var(--pr);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex:none}.pv{width:96px;height:96px;border-radius:50%;object-fit:cover;display:block;margin:6px 0}.ai{white-space:pre-wrap;line-height:1.7}
 .act{display:flex;gap:6px;margin-top:10px}.act button{flex:1;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:10px;padding:8px 2px;font:inherit;font-size:13px;cursor:pointer}.act button.on{border-color:var(--pr)}.cms{margin-top:8px}.cm{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:8px;margin-top:6px;font-size:13px}.cm div{white-space:pre-wrap}
 </style></head><body>
-<header><img id="hl" class="hl" alt="మన సింగంపల్లి"><p style="margin:8px 0 0;font-size:13px">మన ఊరి వార్తలు • సేవలు • మనుషులు</p></header>
+<header><h1>మన సింగంపల్లి</h1><p style="margin:8px 0 0;font-size:13px">మన ఊరి వార్తలు • సేవలు • మనుషులు</p></header>
 <nav id="nav"></nav>
 <main id="m"></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 const IG="https://www.instagram.com/mana_singampalli/";
 const WA="";
+const LOGO="";
 const CATS=[["⚡","ఎలక్ట్రీషియన్"],["🔧","మెకానిక్"],["📸","ఫోటోగ్రాఫర్"],["🌾","రైతు"],["🪚","కార్పెంటర్"],["🧱","మేస్త్రి / బిల్డర్"],["🚰","ప్లంబర్"],["🚜","ట్రాక్టర్ / ట్రాన్స్‌పోర్ట్"],["🧵","టైలర్"],["💇","బార్బర్ / బ్యూటీషియన్"],["🛒","కిరాణా / షాపులు"],["💊","మెడికల్ / ఆరోగ్యం"],["👩‍🏫","టీచర్ / ట్యూషన్"],["🎶","డెకరేషన్ / DJ / ఫంక్షన్"],["🐄","పాడి / పశు సేవలు"],["💻","కంప్యూటర్ / మొబైల్ రిపేర్"],["🍽️","కేటరింగ్ / వంట"],["🧑‍💼","ఇతరులు"]];
 const TABS=[["feed","📰","ఫీడ్"],["svc","🛠️","సేవలు"],["ai","🤖","AI"],["reg","📱","నమోదు"]];
 let tab="feed",cat="అన్నీ",db=null,sample=null,me=null,members=[],posts=[],owner=false,dl=null;
-const csv=(h,rows)=>"\ufeff"+[h.map(x=>x[1]),...rows.map(r=>h.map(x=>'"'+String(r[x[0]]??"").replace(/"/g,'""')+'"'))].map(r=>r.join(",")).join("\n");
-async function exp(k){if(!dl)return;const d=new Date().toISOString().slice(0,10);try{if(k=="m")await dl.save({filename:"singampalli-members-"+d+".csv",data:csv([["name","పేరు"],["phone","మొబైల్"],["cat","వృత్తి"],["desc","వివరాలు"]],members)});else await dl.save({filename:"singampalli-posts-"+d+".csv",data:csv([["name","పేరు"],["phone","మొబైల్"],["text","పోస్ట్"],["t","సమయం"]],posts.map(p=>({...p,t:new Date(p.t).toLocaleString("te-IN")})))})}catch(e){}}
-const adminCard=()=>false?`<div class="card"><h2>🗂️ అడ్మిన్: Excel / Drive కు ఎగుమతి</h2><p class="mu">📊 Excel: సభ్యులు, పోస్టుల వివరాలు రెండు షీట్లలో. 📁 ZIP: అదే వివరాలు + అన్ని ఫోటోలు; దీన్ని Google Drive లో అప్‌లోడ్ చేయండి.</p><button class="btn" onclick="expX(this)">📊 Excel (.xlsx)</button> <button class="btn s" onclick="expZ(this)">📁 Drive ZIP (ఫోటోలతో)</button><p id="exm" class="mu"></p></div>`:"";
-const dnow=()=>new Date().toISOString().slice(0,10);
-const mrows=()=>members.map(x=>({"పేరు":x.name,"మొబైల్":x.phone,"వృత్తి":x.cat||"","వీధి/ప్రాంతం":x.area||"","అనుభవం":x.exp||"","అందుబాటు":x.avail||"","సేవలు":x.svcs||"","వివరాలు":x.desc||"","నమోదు తేదీ":x.t?new Date(x.t).toLocaleString("te-IN"):"","ఫోటో ఫైల్":x.photo?"photos/profile_"+x.phone+".jpg":""}));
-const prows=()=>posts.map(p=>({"తేదీ":new Date(p.t).toLocaleString("te-IN"),"పేరు":p.name||"","మొబైల్":p.phone||"","రకం":p.type=="profile"?"ప్రొఫైల్":"పోస్ట్","టెక్స్ట్":p.text||"","ఫోటో ఫైల్":p.img?"photos/post_"+p.t+"_"+p.phone+".jpg":""}));
-const exm=t=>{const e=document.getElementById("exm");if(e)e.textContent=t};
-async function expX(){if(!dl||!window.XLSX){exm("Excel లైబ్రరీ లోడ్ కాలేదు, రిఫ్రెష్ చేయండి.");return}try{const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(mrows()),"సభ్యులు");XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(prows()),"పోస్టులు");await dl.save({filename:"singampalli-data-"+dnow()+".xlsx",data:XLSX.write(wb,{bookType:"xlsx",type:"array"})});exm("✅ Excel సిద్ధం")}catch(e){exm("❌ సేవ్ కాలేదు")}}
-async function expZ(){if(!dl||!window.JSZip||!window.XLSX){exm("లైబ్రరీ లోడ్ కాలేదు, రిఫ్రెష్ చేయండి.");return}try{const z=new JSZip(),b=d=>d.split(",")[1];z.file("members.csv","\ufeff"+XLSX.utils.sheet_to_csv(XLSX.utils.json_to_sheet(mrows())));z.file("posts.csv","\ufeff"+XLSX.utils.sheet_to_csv(XLSX.utils.json_to_sheet(prows())));members.forEach(x=>{if(x.photo)z.file("photos/profile_"+x.phone+".jpg",b(x.photo),{base64:true})});posts.forEach(p=>{if(p.img)z.file("photos/post_"+p.t+"_"+p.phone+".jpg",b(p.img),{base64:true})});await dl.save({filename:"singampalli-drive-"+dnow()+".zip",data:await z.generateAsync({type:"blob"})});exm("✅ ZIP సిద్ధం — Drive లో అప్‌లోడ్ చేయండి")}catch(e){exm("❌ సేవ్ కాలేదు")}}
-let photo="",pPhoto="";
-function pickPost(i){const f=i.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);let q=.88,s;do{s=c.toDataURL("image/jpeg",q);q-=.06}while(s.length>1500000&&q>.4);pPhoto=s;const p=document.getElementById("pp");p.src=pPhoto;p.classList.remove("hid");URL.revokeObjectURL(u)};im.src=u}
-const av=x=>x.photo?`<img class="av" src="${esc(x.photo)}" alt="">`:`<div class="av">${esc((x.name||"?").trim()[0])}</div>`;
-function pickPhoto(i){const f=i.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);photo=c.toDataURL("image/jpeg",.85);const p=document.getElementById("pv");p.src=photo;p.classList.remove("hid");URL.revokeObjectURL(u)};im.src=u}
+
 const $=s=>document.querySelector(s),esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 me=JSON.parse(ls.get("ms_me")||"null");
+
 function nav(){$("#nav").innerHTML=TABS.map(t=>`<button class="${tab==t[0]?'on':''}" onclick="go('${t[0]}')"><b>${t[1]}</b>${t[2]}</button>`).join("")}
 function go(t){tab=t;nav();render()}
 function igCard(){return `<div class="card"><h2>📸 ఇన్‌స్టాగ్రామ్</h2><p class="mu">మన ఊరి ఫోటోలు, వీడియోలు, తాజా వార్తల కోసం మా అధికారిక పేజీని ఫాలో అవ్వండి.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn ig" href="${IG}" target="_blank" rel="noopener">@mana_singampalli ని చూడండి</a>${WA?`<a class="btn" style="background:#25d366;color:#06330f" href="${WA}" target="_blank" rel="noopener">💬 WhatsApp గ్రూప్</a>`:""}</div></div>`}
+
+let photo="",pPhoto="";
+function pickPhoto(i){const f=i.files[0];if(!f)return;const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);photo=c.toDataURL("image/jpeg",.85);const p=document.getElementById("pv");p.src=photo;p.classList.remove("hid");URL.revokeObjectURL(u)};im.src=u}
+const av=x=>x.photo?`<img class="av" src="${esc(x.photo)}" alt="">`:`<div class="av">${esc((x.name||"?").trim()[0])}</div>`;
+
 function render(){
- const m=$("#m");
- if(tab=="feed"){
-  m.innerHTML=igCard()+`<div class="card"><h2>✍️ మీ పోస్ట్</h2>${me?`<textarea id="pt" rows="3" placeholder="ఊరి వార్త, ప్రకటన, సహాయం కావాలి..."></textarea><label class="mu">🖼️ ఫోటో జోడించండి (ఐచ్ఛికం)</label><input type="file" accept="image/*" onchange="pickPost(this)"><img id="pp" class="pimg hid" alt=""><div class="row"><button class="btn s" onclick="aiPost()">✨ AI తో అందంగా రాయి</button><button class="btn" onclick="addPost()">పోస్ట్ చేయి</button></div>`:`<p class="mu">పోస్ట్ చేయడానికి ముందు “నమోదు” లో మొబైల్ నంబర్‌తో రిజిస్టర్ చేసుకోండి.</p><button class="btn" onclick="go('reg')">నమోదు</button>`}</div><div id="pl"></div>`;
-  drawPosts();
- }else if(tab=="svc"){
-  const list=members.filter(x=>cat=="అన్నీ"||x.cat==cat);
-  m.innerHTML=(adm()?'<button class="btn" style="width:100%;margin-bottom:10px" onclick="openAdm()">➕ కొత్త సభ్యుడిని చేర్చు</button>':"")+`<div class="chips">${["అన్నీ",...CATS.map(c=>c[1])].map(c=>`<button class="chip ${c==cat?'on':''}" onclick="setCat(
-  ఇనదులో ఆ కోడ్ ని add చేసి ఇవ్వు 
+ const m=$("#m");
+ if(tab=="feed"){
+  m.innerHTML=igCard()+`<div class="card"><h2>✍️ మీ పోస్ట్</h2>${me?`<textarea id="pt" rows="3" placeholder="ఊరి వార్త, ప్రకటన, సహాయం కావాలి..."></textarea><label class="mu">🖼️ ఫోటో జోడించండి (ఐచ్ఛికం)</label><input type="file" accept="image/*" onchange="pickPost(this)"><img id="pp" class="pimg hid" alt=""><div class="row"><button class="btn s" onclick="aiPost()">✨ AI తో అందంగా రాయి</button><button class="btn" onclick="addPost()">పోస్ట్ చేయి</button></div>`:`<p class="mu">పోస్ట్ చేయడానికి ముందు “నమోదు” లో మొబైల్ నంబర్‌తో రిజిస్టర్ చేసుకోండి.</p><button class="btn" onclick="go('reg')">నమోదు</button>`}</div><div id="pl"></div>`;
+ }else if(tab=="svc"){
+  const list=members.filter(x=>cat=="అన్నీ"||x.cat==cat);
+  m.innerHTML=`<div class="chips">${["అన్నీ",...CATS.map(c=>c[1])].map(c=>`<button class="chip ${c==cat?'on':''}" onclick="setCat('${esc(c)}')">${esc(c)}</button>`).join("")}</div>`+
+  (list.length?'<div class="grid">'+list.map(x=>'<div>'+poster(x)+'</div>').join("")+'</div>':`<div class="card mu">ఈ విభాగంలో ఇంకా ఎవరూ నమోదు కాలేదు. మీరు మొదటివారు కావచ్చు!</div>`);
+ }else if(tab=="ai"){
+  m.innerHTML=`<div class="card"><h2>🤖 AI సహాయకుడు</h2><p class="mu">ఉదా: “ఎలక్ట్రీషియన్ కావాలి”, “రేపు పొలం దున్నడానికి ట్రాక్టర్ ఎవరు ఇస్తారు?”</p><input id="q" placeholder="మీ ప్రశ్న రాయండి"><button class="btn" onclick="ask()">అడుగు</button><div id="ans" class="ai" style="margin-top:12px"></div></div>`;
+ }else{
+  m.innerHTML=`<div class="card"><h2>📱 మొబైల్ నంబర్‌తో నమోదు</h2>${me?`${av(me)}<p>✅ నమోదైంది: <b>${esc(me.name)}</b> (${esc(me.phone)})</p><button class="btn s" onclick="me=null;ls.set('ms_me','');render()">వేరే నంబర్‌తో</button>`:`<form id="registrationForm"><label class="mu">📷 మీ ఫోటో (తప్పనిసరి)</label><input id="photoInput" type="file" accept="image/*" onchange="pickPhoto(this)" required><img id="pv" class="pv hid" alt=""><input id="nameInput" placeholder="మీ పేరు" required><input id="phoneInput" type="tel" inputmode="numeric" maxlength="10" placeholder="10 అంకెల మొబైల్ నంబర్" required><select id="professionSelect"><option value="">మీ వృత్తి / సేవ (ఐచ్ఛికం)</option>${CATS.map(c=>`<option>${c[1]}</option>`).join("")}</select><textarea id="servicesDescInput" rows="2" placeholder="మీ సేవ గురించి కొద్దిగా"></textarea><input id="areaInput" placeholder="మీ వీధి / ప్రాంతం (ఐచ్ఛికం)"><select id="expSelect"><option value="">అనుభవం</option><option>1 సంవత్సరం లోపు</option><option>1-3 సంవత్సరాలు</option><option>3-5 సంవత్సరాలు</option><option>5-10 సంవత్సరాలు</option><option>10+ సంవత్సరాలు</option></select><select id="availSelect"><option value="">అందుబాటు</option><option>ఫుల్ టైమ్</option><option>పార్ట్ టైమ్</option><option>24x7 అందుబాటులో</option></select><input id="servicesInput" placeholder="మీ సేవలు (కామాతో వేరు చేయండి: ఇంటి వైరింగ్, ఫ్యాన్ రిపేర్)"><button type="submit" class="btn">నమోదు చేయి</button><p id="rm" class="mu"></p></form>`}</div>
+
+  <div id="posterContainer" style="display:none;" class="card">
+      <h3 style="color:#f39c12; text-align:center;">మీ డిజిటల్ పోస్టర్ సిద్ధమైంది!</h3>
+      <canvas id="posterCanvas" width="600" height="400" style="max-width:100%; border:2px solid #f39c12; border-radius:10px; display:block; margin:0 auto;"></canvas>
+      <br>
+      <div style="text-align:center;">
+          <a id="downloadPosterBtn" class="btn" download="mana-singampalli-poster.png" style="background:#27ae60; color:#fff; padding:11px 16px; text-decoration:none; border-radius:10px; display:inline-block; font-weight:600;">పోస్టర్ డౌన్‌లోడ్ చేసుకోండి</a>
+      </div>
+  </div>`;
+
+  setTimeout(() => {
+      const regForm = document.getElementById('registrationForm');
+      if (regForm) {
+          regForm.addEventListener('submit', function(e) {
+              e.preventDefault();
+
+              const formData = {
+                  name: document.getElementById('nameInput').value,
+                  phone: document.getElementById('phoneInput').value,
+                  profession: document.getElementById('professionSelect').value,
+                  area: document.getElementById('areaInput').value,
+                  exp: document.getElementById('expSelect').value,
+                  avail: document.getElementById('availSelect').value,
+                  services: document.getElementById('servicesInput').value,
+                  desc: document.getElementById('servicesDescInput').value
+              };
+
+              const canvas = document.getElementById('posterCanvas');
+              const ctx = canvas.getContext('2d');
+
+              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+              gradient.addColorStop(0, '#2c1810');
+              gradient.addColorStop(1, '#1a0c08');
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+              ctx.strokeStyle = '#f39c12';
+              ctx.lineWidth = 6;
+              ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+
+              ctx.fillStyle = '#f39c12';
+              ctx.font = 'bold 22px Arial';
+              ctx.textAlign = 'center';
+              ctx.fillText('మన సింగంపల్లి - సేవా భాగస్వామి', canvas.width / 2, 45);
+
+              ctx.strokeStyle = '#f39c12';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(30, 60);
+              ctx.lineTo(570, 60);
+              ctx.stroke();
+
+              const photoInput = document.getElementById('photoInput');
+
+              const renderPoster = (userImg = null) => {
+                  if (userImg) {
+                      ctx.save();
+                      ctx.beginPath();
+                      ctx.arc(100, 150, 55, 0, Math.PI * 2, true);
+                      ctx.closePath();
+                      ctx.clip();
+                      ctx.drawImage(userImg, 45, 95, 110, 110);
+                      ctx.restore();
+
+                      ctx.strokeStyle = '#f39c12';
+                      ctx.lineWidth = 3;
+                      ctx.beginPath();
+                      ctx.arc(100, 150, 55, 0, Math.PI * 2, true);
+                      ctx.stroke();
+                  }
+
+                  ctx.textAlign = 'left';
+                  ctx.fillStyle = '#ffffff';
+                  ctx.font = 'bold 24px Arial';
+                  ctx.fillText(formData.name, 170, 115);
+
+                  ctx.fillStyle = '#f39c12';
+                  ctx.font = '18px Arial';
+                  ctx.fillText('వృత్తి: ' + (formData.profession || 'సేవలు'), 170, 145);
+
+                  ctx.fillStyle = '#ffffff';
+                  ctx.font = '16px Arial';
+                  ctx.fillText('ఫోన్: ' + formData.phone, 170, 175);
+
+                  ctx.fillStyle = '#cccccc';
+                  ctx.font = '14px Arial';
+                  ctx.fillText('ప్రాంతం: ' + (formData.area || '-'), 170, 205);
+
+                  ctx.fillStyle = '#e67e22';
+                  ctx.font = 'bold 15px Arial';
+                  ctx.fillText('సేవలు: ' + (formData.services || ''), 30, 260);
+
+                  ctx.fillStyle = '#888888';
+                  ctx.font = 'italic 13px Arial';
+                  ctx.textAlign = 'center';
+                  ctx.fillText('మా ఊరి స్వయం సమృద్ధి కోసం మీ చేయూత!', canvas.width / 2, 360);
+
+                  const container = document.getElementById('posterContainer');
+                  container.style.display = 'block';
+                  const downloadBtn = document.getElementById('downloadPosterBtn');
+                  downloadBtn.href = canvas.toDataURL('image/png');
+
+                  container.scrollIntoView({ behavior: 'smooth' });
+              };
+
+              if (photoInput.files && photoInput.files[0]) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                      const img = new Image();
+                      img.onload = function() { renderPoster(img); };
+                      img.src = e.target.result;
+                  };
+                  reader.readAsDataURL(photoInput.files[0]);
+              } else {
+                  renderPoster();
+              }
+          });
+      }
+  }, 100);
+ }
+}
+
+function setCat(c){cat=c;render()}
+function poster(x){return `<div class="pst"><div class="ph"><b>మన సింగంపల్లి</b><small>మన ఊరి ముఖాలు</small></div>${x.photo?`<img class="pp2" src="${esc(x.photo)}" alt="">`:`<div class="pp2">${esc((x.name||"?").trim()[0])}</div>`}<div class="pi"><h3>${esc(x.name)}</h3><span class="tag" style="align-self:flex-start">${esc(x.cat||"సేవ")}</span><p>📍 ${x.area?esc(x.area)+", ":""}సింగంపల్లి</p><a class="btn" href="tel:${esc(x.phone)}">📞 ${esc(x.phone)}</a></div></div>`}
+
+// ప్రారంభంలో వెబ్‌సైట్ లోడ్ చేయడం
+nav();
+render();
+</script></body></html>

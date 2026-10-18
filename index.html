@@ -214,38 +214,4 @@
             ctx.fillText(phone, 40, 725);
 
             // 11. Instagram
-            ctx.fillStyle = '#d946ef';
-            ctx.font = 'bold 13px Arial';
-            ctx.fillText('📸 Follow Us On Instagram', 345, 702);
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 15px Arial';
-            ctx.fillText('@mana_singampalli', 345, 725);
-
-            // 12. Trust Strip
-            ctx.fillStyle = '#064e3b';
-            ctx.fillRect(0, 755, 600, 45);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 11px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('✓ Quality Assurance   |   ✓ Community Trust   |   ✓ Dedicated Service   |   ✓ Village Welfare', 300, 782);
-
-            // 13. Base Footer
-            ctx.fillStyle = '#0f172a';
-            ctx.fillRect(0, 800, 600, 100);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 18px Arial';
-            ctx.fillText('SINGAMPALLI', 300, 835);
-            ctx.font = '13px Arial';
-            ctx.fillStyle = '#94a3b8';
-            ctx.fillText('Singampalli, Andhra Pradesh', 300, 858);
-
-            // 14. Draw User Photo
-            if (photoFile) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        ctx.save();
-                        ctx.beginPath();
-                        if (ctx.roundRect) ctx.roundRect(435, 120, 145, 115, 12);
-                        else ctx.rect(435, 120,
+            ctx.fillStyle =

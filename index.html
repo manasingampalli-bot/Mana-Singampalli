@@ -32,7 +32,6 @@ h2{font-size:18px;margin:4px 0 12px}input,select,textarea{width:100%;padding:11p
 <script>
 const IG="https://www.instagram.com/mana_singampalli/";
 const WA="";
-const LOGO="";
 const CATS=[["⚡","ఎలక్ట్రీషియన్"],["🔧","మెకానిక్"],["📸","ఫోటోగ్రాఫర్"],["🌾","రైతు"],["🪚","కార్పెంటర్"],["🧱","మేస్త్రి / బిల్డర్"],["🚰","ప్లంబర్"],["🚜","ట్రాక్టర్ / ట్రాన్స్‌పోర్ట్"],["🧵","టైలర్"],["💇","బార్బర్ / బ్యూటీషియన్"],["🛒","కిరాణా / షాపులు"],["💊","మెడికల్ / ఆరోగ్యం"],["👩‍🏫","టీచర్ / ట్యూషన్"],["🎶","డెకరేషన్ / DJ / ఫంక్షన్"],["🐄","పాడి / పశు సేవలు"],["💻","కంప్యూటర్ / మొబైల్ రిపేర్"],["🍽️","కేటరింగ్ / వంట"],["🧑‍💼","ఇతరులు"]];
 const TABS=[["feed","📰","ఫీడ్"],["svc","🛠️","సేవలు"],["ai","🤖","AI"],["reg","📱","నమోదు"]];
 let tab="feed",cat="అన్నీ",db=null,sample=null,me=null,members=[],posts=[],owner=false,dl=null;
@@ -60,14 +59,14 @@ function render(){
  }else if(tab=="ai"){
   m.innerHTML=`<div class="card"><h2>🤖 AI సహాయకుడు</h2><p class="mu">ఉదా: “ఎలక్ట్రీషియన్ కావాలి”, “రేపు పొలం దున్నడానికి ట్రాక్టర్ ఎవరు ఇస్తారు?”</p><input id="q" placeholder="మీ ప్రశ్న రాయండి"><button class="btn" onclick="ask()">అడుగు</button><div id="ans" class="ai" style="margin-top:12px"></div></div>`;
  }else{
-  m.innerHTML=`<div class="card"><h2>📱 మొబైల్ నంబర్‌తో నమోదు</h2>${me?`${av(me)}<p>✅ నమోదైంది: <b>${esc(me.name)}</b> (${esc(me.phone)})</p><button class="btn s" onclick="me=null;ls.set('ms_me','');render()">వేరే నంబర్‌తో</button>`:`<form id="registrationForm"><label class="mu">📷 మీ ఫోటో (తప్పనిసరి)</label><input id="photoInput" type="file" accept="image/*" onchange="pickPhoto(this)" required><img id="pv" class="pv hid" alt=""><input id="nameInput" placeholder="మీ పేరు" required><input id="phoneInput" type="tel" inputmode="numeric" maxlength="10" placeholder="10 అంకెల మొబైల్ నంబర్" required><select id="professionSelect"><option value="">మీ వృత్తి / సేవ (ఐచ్ఛికం)</option>${CATS.map(c=>`<option>${c[1]}</option>`).join("")}</select><textarea id="servicesDescInput" rows="2" placeholder="మీ సేవ గురించి కొద్దిగా"></textarea><input id="areaInput" placeholder="మీ వీధి / ప్రాంతం (ఐచ్ఛికం)"><select id="expSelect"><option value="">అనుభవం</option><option>1 సంవత్సరం లోపు</option><option>1-3 సంవత్సరాలు</option><option>3-5 సంవత్సరాలు</option><option>5-10 సంవత్సరాలు</option><option>10+ సంవత్సరాలు</option></select><select id="availSelect"><option value="">అందుబాటు</option><option>ఫుల్ టైమ్</option><option>పార్ట్ టైమ్</option><option>24x7 అందుబాటులో</option></select><input id="servicesInput" placeholder="మీ సేవలు (కామాతో వేరు చేయండి: ఇంటి వైరింగ్, ఫ్యాన్ రిపేర్)"><button type="submit" class="btn">నమోదు చేయి</button><p id="rm" class="mu"></p></form>`}</div>
+  m.innerHTML=`<div class="card"><h2>📱 మొబైల్ నంబర్‌తో నమోదు</h2>${me?`${av(me)}<p>✅ నమోదైంది: <b>${esc(me.name)}</b> (${esc(me.phone)})</p><button class="btn s" onclick="me=null;ls.set('ms_me','');render()">వేరే నంబర్‌తో</button>`:`<form id="registrationForm"><label class="mu">📷 మీ ఫోటో (తప్పనిసరి)</label><input id="photoInput" type="file" accept="image/*" onchange="pickPhoto(this)" required><img id="pv" class="pv hid" alt=""><input id="nameInput" placeholder="మీ పేరు" required><input id="phoneInput" type="tel" inputmode="numeric" maxlength="10" placeholder="10 అంకెల మొబైల్ నంబర్" required><select id="professionSelect"><option value="">మీ వృత్తి / సేవ (ఐచ్ఛికం)</option>${CATS.map(c=>`<option>${c[1]}</option>`).join("")}</select><textarea id="servicesDescInput" rows="2" placeholder="మీ సేవ గురించి కొద్దిగా"></textarea><input id="areaInput" placeholder="మీ వీధి / ప్రాంతం (ఐచ్ఛికం)"><select id="expSelect"><option value="">అనుభవం</option><option>1-3 Years Experience</option><option>3-5 Years Experience</option><option>5+ Years Experience</option></select><select id="availSelect"><option value="">అందుబాటు</option><option>Always Available</option><option>Part Time</option></select><input id="servicesInput" placeholder="మీ సేవలు (కామాతో వేరు చేయండి)"><button type="submit" class="btn">నమోదు చేయి</button><p id="rm" class="mu"></p></form>`}</div>
 
   <div id="posterContainer" style="display:none;" class="card">
-      <h3 style="color:#f39c12; text-align:center;">మీ డిజిటల్ పోస్టర్ సిద్ధమైంది!</h3>
-      <canvas id="posterCanvas" width="600" height="400" style="max-width:100%; border:2px solid #f39c12; border-radius:10px; display:block; margin:0 auto;"></canvas>
+      <h3 style="color:#0a5829; text-align:center;">మీ డిజిటల్ ప్రోత్సహక పోస్టర్ సిద్ధమైంది!</h3>
+      <canvas id="posterCanvas" width="600" height="800" style="max-width:100%; border:2px solid #0a5829; border-radius:10px; display:block; margin:0 auto; background:#fff;"></canvas>
       <br>
       <div style="text-align:center;">
-          <a id="downloadPosterBtn" class="btn" download="mana-singampalli-poster.png" style="background:#27ae60; color:#fff; padding:11px 16px; text-decoration:none; border-radius:10px; display:inline-block; font-weight:600;">పోస్టర్ డౌన్‌లోడ్ చేసుకోండి</a>
+          <a id="downloadPosterBtn" class="btn" download="mana-singampalli-poster.png" style="background:#0a5829; color:#fff; padding:11px 16px; text-decoration:none; border-radius:10px; display:inline-block; font-weight:600;">పోస్టర్ డౌన్‌లోడ్ చేసుకోండి</a>
       </div>
   </div>`;
 
@@ -78,91 +77,150 @@ function render(){
               e.preventDefault();
 
               const formData = {
-                  name: document.getElementById('nameInput').value,
+                  name: document.getElementById('nameInput').value.toUpperCase(),
                   phone: document.getElementById('phoneInput').value,
-                  profession: document.getElementById('professionSelect').value,
-                  area: document.getElementById('areaInput').value,
-                  exp: document.getElementById('expSelect').value,
-                  avail: document.getElementById('availSelect').value,
-                  services: document.getElementById('servicesInput').value,
-                  desc: document.getElementById('servicesDescInput').value
+                  profession: document.getElementById('professionSelect').value || 'Service Specialist',
+                  area: document.getElementById('areaInput').value || 'Singampalli, Andhra Pradesh',
+                  exp: document.getElementById('expSelect').value || '1-3 Years Experience',
+                  avail: document.getElementById('availSelect').value || 'Always Available',
+                  services: document.getElementById('servicesInput').value || 'General Services & Repairs'
               };
 
               const canvas = document.getElementById('posterCanvas');
               const ctx = canvas.getContext('2d');
 
-              const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
-              gradient.addColorStop(0, '#2c1810');
-              gradient.addColorStop(1, '#1a0c08');
-              ctx.fillStyle = gradient;
+              // Background
+              ctx.fillStyle = '#f8fafc';
               ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-              ctx.strokeStyle = '#f39c12';
-              ctx.lineWidth = 6;
-              ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+              // Top Banner Background
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, canvas.width, 100);
 
-              ctx.fillStyle = '#f39c12';
+              // Header Branding
+              ctx.fillStyle = '#0a5829';
               ctx.font = 'bold 22px Arial';
-              ctx.textAlign = 'center';
-              ctx.fillText('మన సింగంపల్లి - సేవా భాగస్వామి', canvas.width / 2, 45);
+              ctx.textAlign = 'left';
+              ctx.fillText('MANA SINGAMPALLI', 20, 40);
 
-              ctx.strokeStyle = '#f39c12';
-              ctx.lineWidth = 1;
+              ctx.fillStyle = '#1e293b';
+              ctx.font = 'bold 12px Arial';
               ctx.beginPath();
-              ctx.moveTo(30, 60);
-              ctx.lineTo(570, 60);
-              ctx.stroke();
+              if (ctx.roundRect) ctx.roundRect(20, 52, 220, 24, 12);
+              else ctx.rect(20, 52, 220, 24);
+              ctx.fillStyle = '#0a5829';
+              ctx.fill();
 
-              const photoInput = document.getElementById('photoInput');
+              ctx.fillStyle = '#ffffff';
+              ctx.fillText('SINGAMPALLI CAREERS & SERVICES', 28, 68);
 
-              const renderPoster = (userImg = null) => {
-                  if (userImg) {
-                      ctx.save();
-                      ctx.beginPath();
-                      ctx.arc(100, 150, 55, 0, Math.PI * 2, true);
-                      ctx.closePath();
-                      ctx.clip();
-                      ctx.drawImage(userImg, 45, 95, 110, 110);
-                      ctx.restore();
+              // Slogan
+              ctx.fillStyle = '#0284c7';
+              ctx.font = 'italic bold 16px Arial';
+              ctx.textAlign = 'right';
+              ctx.fillText('Keep On Rolling,', 580, 40);
+              ctx.fillText('Ride Safely Every Day', 580, 62);
 
-                      ctx.strokeStyle = '#f39c12';
-                      ctx.lineWidth = 3;
-                      ctx.beginPath();
-                      ctx.arc(100, 150, 55, 0, Math.PI * 2, true);
-                      ctx.stroke();
-                  }
+              // "Meet"
+              ctx.fillStyle = '#0f172a';
+              ctx.font = 'bold 26px Arial';
+              ctx.textAlign = 'left';
+              ctx.fillText('Meet', 20, 130);
 
-                  ctx.textAlign = 'left';
-                  ctx.fillStyle = '#ffffff';
-                  ctx.font = 'bold 24px Arial';
-                  ctx.fillText(formData.name, 170, 115);
+              // Name
+              ctx.fillStyle = '#0a5829';
+              ctx.font = 'bold 36px Arial';
+              ctx.fillText(formData.name, 20, 170);
 
-                  ctx.fillStyle = '#f39c12';
-                  ctx.font = '18px Arial';
-                  ctx.fillText('వృత్తి: ' + (formData.profession || 'సేవలు'), 170, 145);
+              // Profession Subtitle
+              ctx.fillStyle = '#0284c7';
+              ctx.font = 'bold 20px Arial';
+              ctx.fillText('Expert ' + formData.profession, 20, 200);
 
-                  ctx.fillStyle = '#ffffff';
-                  ctx.font = '16px Arial';
-                  ctx.fillText('ఫోన్: ' + formData.phone, 170, 175);
+              // Location Tag
+              ctx.fillStyle = '#334155';
+              ctx.font = '15px Arial';
+              ctx.fillText('📍 ' + formData.area, 20, 230);
 
-                  ctx.fillStyle = '#cccccc';
-                  ctx.font = '14px Arial';
-                  ctx.fillText('ప్రాంతం: ' + (formData.area || '-'), 170, 205);
-
-                  ctx.fillStyle = '#e67e22';
-                  ctx.font = 'bold 15px Arial';
-                  ctx.fillText('సేవలు: ' + (formData.services || ''), 30, 260);
-
-                  ctx.fillStyle = '#888888';
-                  ctx.font = 'italic 13px Arial';
+              // Badges Section
+              const drawBadge = (x, y, text) => {
+                  ctx.fillStyle = '#e0f2fe';
+                  ctx.beginPath();
+                  if (ctx.roundRect) ctx.roundRect(x, y, 130, 50, 10);
+                  else ctx.rect(x, y, 130, 50);
+                  ctx.fill();
+                  ctx.fillStyle = '#0369a1';
+                  ctx.font = 'bold 12px Arial';
                   ctx.textAlign = 'center';
-                  ctx.fillText('మా ఊరి స్వయం సమృద్ధి కోసం మీ చేయూత!', canvas.width / 2, 360);
+                  ctx.fillText(text, x + 65, y + 30);
+              };
+
+              drawBadge(20, 260, formData.exp);
+              drawBadge(160, 260, 'Telugu & English');
+              drawBadge(300, 260, formData.avail);
+
+              // Services Banner
+              ctx.fillStyle = '#0a5829';
+              ctx.beginPath();
+              if (ctx.roundRect) ctx.roundRect(20, 330, 560, 40, 8);
+              else ctx.rect(20, 330, 560, 40);
+              ctx.fill();
+
+              ctx.fillStyle = '#ffffff';
+              ctx.font = 'bold 16px Arial';
+              ctx.textAlign = 'left';
+              ctx.fillText('🛠️  ' + formData.services.toUpperCase(), 35, 356);
+
+              // Contact Card at Bottom
+              ctx.fillStyle = '#0a5829';
+              ctx.beginPath();
+              if (ctx.roundRect) ctx.roundRect(20, 680, 320, 60, 30);
+              else ctx.rect(20, 680, 320, 60);
+              ctx.fill();
+
+              ctx.fillStyle = '#ffffff';
+              ctx.font = 'bold 14px Arial';
+              ctx.fillText('Contact Now', 40, 703);
+              ctx.font = 'bold 22px Arial';
+              ctx.fillText(formData.phone, 40, 728);
+
+              // Instagram Branding
+              ctx.fillStyle = '#d946ef';
+              ctx.font = 'bold 14px Arial';
+              ctx.fillText('Follow Us On Instagram', 370, 703);
+              ctx.fillStyle = '#0f172a';
+              ctx.font = 'bold 16px Arial';
+              ctx.fillText('@mana_singampalli', 370, 726);
+
+              // Footer Bar
+              ctx.fillStyle = '#064e3b';
+              ctx.fillRect(0, 760, 600, 40);
+              ctx.fillStyle = '#ffffff';
+              ctx.font = '12px Arial';
+              ctx.textAlign = 'center';
+              ctx.fillText('SINGAMPALLI • Quality Assurance • Community Trust • Village Welfare', 300, 784);
+
+              // Render User Profile Image on Right
+              const photoInput = document.getElementById('photoInput');
+              const renderImageOnCanvas = (userImg) => {
+                  ctx.save();
+                  ctx.beginPath();
+                  if (ctx.roundRect) ctx.roundRect(440, 110, 140, 180, 15);
+                  else ctx.rect(440, 110, 140, 180);
+                  ctx.clip();
+                  ctx.drawImage(userImg, 440, 110, 140, 180);
+                  ctx.restore();
+
+                  ctx.strokeStyle = '#0a5829';
+                  ctx.lineWidth = 3;
+                  ctx.beginPath();
+                  if (ctx.roundRect) ctx.roundRect(440, 110, 140, 180, 15);
+                  else ctx.rect(440, 110, 140, 180);
+                  ctx.stroke();
 
                   const container = document.getElementById('posterContainer');
                   container.style.display = 'block';
-                  const downloadBtn = document.getElementById('downloadPosterBtn');
-                  downloadBtn.href = canvas.toDataURL('image/png');
-
+                  document.getElementById('downloadPosterBtn').href = canvas.toDataURL('image/png');
                   container.scrollIntoView({ behavior: 'smooth' });
               };
 
@@ -170,12 +228,10 @@ function render(){
                   const reader = new FileReader();
                   reader.onload = function(e) {
                       const img = new Image();
-                      img.onload = function() { renderPoster(img); };
+                      img.onload = function() { renderImageOnCanvas(img); };
                       img.src = e.target.result;
                   };
                   reader.readAsDataURL(photoInput.files[0]);
-              } else {
-                  renderPoster();
               }
           });
       }
@@ -186,7 +242,6 @@ function render(){
 function setCat(c){cat=c;render()}
 function poster(x){return `<div class="pst"><div class="ph"><b>మన సింగంపల్లి</b><small>మన ఊరి ముఖాలు</small></div>${x.photo?`<img class="pp2" src="${esc(x.photo)}" alt="">`:`<div class="pp2">${esc((x.name||"?").trim()[0])}</div>`}<div class="pi"><h3>${esc(x.name)}</h3><span class="tag" style="align-self:flex-start">${esc(x.cat||"సేవ")}</span><p>📍 ${x.area?esc(x.area)+", ":""}సింగంపల్లి</p><a class="btn" href="tel:${esc(x.phone)}">📞 ${esc(x.phone)}</a></div></div>`}
 
-// ప్రారంభంలో వెబ్‌సైట్ లోడ్ చేయడం
 nav();
 render();
 </script></body></html>

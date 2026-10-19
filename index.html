@@ -89,10 +89,10 @@ async function igCard(p){
  x.fillStyle="#fff";let z=34;x.font="600 "+z+"px "+F;while(x.measureText(link).width>W-60&&z>18){z-=2;x.font="600 "+z+"px "+F}
  x.textAlign="center";x.fillText(link,W/2,H-band/2+z/3);
  return new Promise(r=>c.toBlob(r,"image/jpeg",.92))}
-async function sharePost(ix,btn){const p=posts[ix];if(!p)return;const old=btn.textContent;btn.textContent="⏳ సిద్ధం చేస్తున్నాం…";
+const IGURL="https://www.instagram.com/mana_singampalli/";
+async function sharePost(ix,btn){const p=posts[ix];if(!p||!owner)return;window.open(IGURL,"_blank");const old=btn.textContent;btn.textContent="⏳ సిద్ధం చేస్తున్నాం…";
  const cap=capOf(p);try{await navigator.clipboard.writeText(cap)}catch(e){}
  try{const bl=await igCard(p),f=new File([bl],"mana-singampalli.jpg",{type:"image/jpeg"});
-  if(navigator.canShare&&navigator.canShare({files:[f]})){btn.textContent=old;await navigator.share({files:[f],text:cap});return}
   await dl.save({filename:"mana-singampalli.jpg",data:f});btn.textContent="✅ ఫోటో సేవ్, క్యాప్షన్ కాపీ — Instagram లో పోస్ట్ చేయండి";setTimeout(()=>btn.textContent=old,5000)}
  catch(e){btn.textContent=old;if(e&&e.name=="AbortError")return;if(p.img)window.open(p.img,"_blank");else prompt("క్యాప్షన్ కాపీ చేయండి:",cap)}}
 function copyReg(b){const t=REGLINK(),o=b.textContent;navigator.clipboard.writeText(t).then(()=>{b.textContent="✅ కాపీ అయ్యింది";setTimeout(()=>b.textContent=o,2500)}).catch(()=>prompt("లింక్ కాపీ చేయండి:",t))}
@@ -122,8 +122,19 @@ return `<div class="act"><button class="${liked?'on':''}" onclick="likePost('${i
 async function likePost(id){if(!me){go("reg");return}const had=likes.some(l=>l.pid==id&&l.phone==me.phone);try{if(db){const k="likes/"+id+"_"+me.phone;if(had)await db.doc(k).delete();else await db.doc(k).set({pid:id,phone:me.phone,name:me.name,t:Date.now()})}else{likes=had?likes.filter(l=>!(l.pid==id&&l.phone==me.phone)):[...likes,{pid:id,phone:me.phone,name:me.name,t:Date.now()}];drawPosts()}}catch(e){}}
 function togC(id){openC[id]=!openC[id];drawPosts()}
 async function addC(id){const i=document.querySelector('.ci[data-p="'+id+'"]'),t=i?i.value.trim():"";if(!t||!me)return;const o={pid:id,name:me.name,phone:me.phone,text:t,t:Date.now()};delete cdraft[id];if(i)i.blur();try{if(db)await db.doc("comments/"+id+"_"+o.t+"_"+me.phone).set(o);else cmts.push(o)}catch(e){cdraft[id]=t}drawPosts()}
-async function shPost(ix,btn){const p=posts[ix];if(!p)return;const tx=p.type=="profile"?p.name+" — "+(p.cat||"సేవ")+"\n📞 "+p.phone:(p.text||""),txt=(tx?tx+"\n\n":"")+"📝 నమోదు: "+REGLINK()+"\n#మనసింగంపల్లి",old=btn.textContent;try{if(navigator.share){await navigator.share({title:"మన సింగంపల్లి",text:txt});return}await navigator.clipboard.writeText(txt);btn.textContent="✅ కాపీ అయ్యింది";setTimeout(()=>btn.textContent=old,2500)}catch(e){if(e&&e.name=="AbortError")return;prompt("కాపీ చేసి షేర్ చేయండి:",txt)}}
-function drawPosts(){const e=$("#pl");if(!e)return;if(document.activeElement&&document.activeElement.classList.contains("ci"))return;e.innerHTML=posts.some(p=>p.type!="profile")?posts.map((p,ix)=>p.type=="profile"?"":(`<div class="card"><div class="row"><span class="row" style="justify-content:flex-start">${av({name:p.name,photo:(members.find(m=>m.phone==p.phone)||{}).photo})}<b>${esc(p.name)}</b></span><span class="mu">${new Date(p.t).toLocaleDateString("te-IN")}</span></div><p style="white-space:pre-wrap">${esc(p.text)}</p>${p.img?`<img class="pimg" src="${esc(p.img)}" alt="">`:""}<button class="btn ig" style="margin-top:8px;width:100%" onclick="sharePost(${ix},this)">📤 Instagram లో షేర్ చేయి</button>${actBar(p,ix)}</div>`)+postAdm(ix)).join(""):`<div class="card mu">ఇంకా పోస్టులు లేవు. మొదటి పోస్ట్ మీదే కావచ్చు!</div>`}
+const shCache={};
+async function shPost(ix,btn){const p=posts[ix];if(!p)return;const id=pid(p),old=btn.textContent,cap=capOf(p);
+ try{
+  let f=shCache[id];
+  if(!f){btn.textContent="⏳ సిద్ధం చేస్తున్నాం…";try{f=new File([await igCard(p)],"mana-singampalli.jpg",{type:"image/jpeg"});shCache[id]=f}catch(e){}}
+  if(navigator.share){const d=f&&navigator.canShare&&navigator.canShare({files:[f]})?{files:[f],text:cap}:{text:cap};
+   try{btn.textContent=old;await navigator.share(d);return}
+   catch(e){if(e&&e.name=="AbortError")return;if(e&&e.name=="NotAllowedError"&&f){btn.textContent="👉 షేర్ కోసం మళ్ళీ నొక్కండి";return}throw e}}
+  try{await navigator.clipboard.writeText(cap)}catch(e){}
+  if(f)await dl.save({filename:"mana-singampalli.jpg",data:f});
+  btn.textContent="✅ క్యాప్షన్ కాపీ, ఫోటో సేవ్ అయ్యింది";setTimeout(()=>btn.textContent=old,4000)
+ }catch(e){btn.textContent=old;prompt("కాపీ చేసి షేర్ చేయండి:",cap)}}
+function drawPosts(){const e=$("#pl");if(!e)return;if(document.activeElement&&document.activeElement.classList.contains("ci"))return;e.innerHTML=posts.some(p=>p.type!="profile")?posts.map((p,ix)=>p.type=="profile"?"":(`<div class="card"><div class="row"><span class="row" style="justify-content:flex-start">${av({name:p.name,photo:(members.find(m=>m.phone==p.phone)||{}).photo})}<b>${esc(p.name)}</b></span><span class="mu">${new Date(p.t).toLocaleDateString("te-IN")}</span></div><p style="white-space:pre-wrap">${esc(p.text)}</p>${p.img?`<img class="pimg" src="${esc(p.img)}" alt="">`:""}${owner?`<button class="btn ig" style="margin-top:8px;width:100%" onclick="sharePost(${ix},this)">📤 Instagram లో షేర్ చేయి</button>`:""}${actBar(p,ix)}</div>`)+postAdm(ix)).join(""):`<div class="card mu">ఇంకా పోస్టులు లేవు. మొదటి పోస్ట్ మీదే కావచ్చు!</div>`}
 async function reg(){
  const n=$("#rn").value.trim(),p=$("#rp").value.trim(),c=$("#rc").value,d=$("#rd").value.trim();
  if(!n||!/^[6-9]\d{9}$/.test(p)){$("#rm").textContent="సరైన పేరు, 10 అంకెల భారత మొబైల్ నంబర్ ఇవ్వండి.";return}

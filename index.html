@@ -69,7 +69,34 @@ function render(){
  }
 }
 function poster(x,big){const sv=(x.svcs||"").split(/[,،]/).map(s=>s.trim()).filter(Boolean).slice(0,big?12:4);return `<div class="pst${big?' pb':''}"><div class="ph"><b style="display:flex;align-items:center;gap:6px"><img class="pl" src="${LOGO}" alt="">మన సింగంపల్లి</b><small>మన ఊరి ముఖాలు</small></div>${x.photo?`<img class="pp2" src="${esc(x.photo)}" alt="">`:`<div class="pp2">${esc((x.name||"?").trim()[0])}</div>`}<div class="pi"><h3>${esc(x.name)}</h3><span class="tag" style="align-self:flex-start">${esc(x.cat||"సేవ")}</span><p>📍 ${x.area?esc(x.area)+", ":""}సింగంపల్లి</p><div class="bd2">${x.exp?`<span>🏆 ${esc(x.exp)}</span>`:""}<span>🗣️ తెలుగు</span>${x.avail?`<span>🕒 ${esc(x.avail)}</span>`:""}</div>${x.desc?`<p class="mu">${esc(x.desc)}</p>`:""}${sv.length?`<div class="sv">${sv.map(s=>`<i>${esc(s)}</i>`).join("")}</div>`:""}<a class="btn" href="tel:${esc(x.phone)}">📞 ${esc(x.phone)}</a></div></div>`}
-async function sharePost(ix,btn){const p=posts[ix];if(!p||!p.img)return;const old=btn.textContent;try{const bl=await(await fetch(p.img)).blob(),f=new File([bl],"mana-singampalli.jpg",{type:"image/jpeg"});if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({files:[f],text:(p.text?p.text+"\n":"")+"#మనసింగంపల్లి @mana_singampalli"});return}if(dl){await dl.save({filename:"mana-singampalli.jpg",data:f});btn.textContent="✅ సేవ్ అయ్యింది — Instagram లో పోస్ట్ చేయండి";setTimeout(()=>btn.textContent=old,4000)}}catch(e){if(e&&e.name!="AbortError")window.open(p.img,"_blank")}}
+const REGLINK=()=>location.origin+location.pathname+"#reg";
+const capOf=p=>(p.text?p.text+"\n\n":"")+"— "+p.name+"\n\n📝 మన సింగంపల్లి లో నమోదు చేసుకోండి: "+REGLINK()+"\n#మనసింగంపల్లి";
+function wrapT(x,t,w){const L=[];t.split("\n").forEach(par=>{let l="";par.split(" ").forEach(wd=>{const n=l?l+" "+wd:wd;if(x.measureText(n).width>w&&l){L.push(l);l=wd}else l=n});L.push(l)});return L}
+async function igCard(p){
+ await (document.fonts&&document.fonts.ready);
+ const W=1080,F="'Noto Sans Telugu',system-ui,sans-serif",link="నమోదు: "+REGLINK().replace(/^https?:\/\//,"");
+ let img=null;if(p.img){try{img=await createImageBitmap(await (await fetch(p.img)).blob())}catch(e){throw new Error("img")}}
+ const band=110,H=img?Math.round(img.height*W/img.width)+band:W,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d");
+ x.fillStyle="#fff";x.fillRect(0,0,W,H);
+ if(img){x.drawImage(img,0,0,W,H-band)}
+ else{const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,"#0d47a1");g.addColorStop(.6,"#1976d2");g.addColorStop(1,"#2e9e4f");x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.fillStyle="#fff";x.fillRect(50,50,W-100,H-100-band);x.fillStyle="#fcc419";x.fillRect(50,50,W-100,14);
+  x.fillStyle="#1565c0";x.font="700 46px "+F;x.fillText("మన సింగంపల్లి",90,140);
+  x.fillStyle="#12263f";let fs=46,L;do{x.font="400 "+fs+"px "+F;L=wrapT(x,p.text||"",W-180);fs-=3}while(L.length*(fs+3)*1.45>H-420&&fs>24);
+  const lh=(fs+3)*1.45;L.forEach((l,k)=>x.fillText(l,90,210+k*lh));
+  x.fillStyle="#2e9e4f";x.font="700 38px "+F;x.fillText("— "+p.name,90,H-band-80)}
+ x.fillStyle="#1565c0";x.fillRect(0,H-band,W,band);x.fillStyle="#fcc419";x.fillRect(0,H-band,W,8);
+ x.fillStyle="#fff";let z=34;x.font="600 "+z+"px "+F;while(x.measureText(link).width>W-60&&z>18){z-=2;x.font="600 "+z+"px "+F}
+ x.textAlign="center";x.fillText(link,W/2,H-band/2+z/3);
+ return new Promise(r=>c.toBlob(r,"image/jpeg",.92))}
+async function sharePost(ix,btn){const p=posts[ix];if(!p)return;const old=btn.textContent;btn.textContent="⏳ సిద్ధం చేస్తున్నాం…";
+ const cap=capOf(p);try{await navigator.clipboard.writeText(cap)}catch(e){}
+ try{const bl=await igCard(p),f=new File([bl],"mana-singampalli.jpg",{type:"image/jpeg"});
+  if(navigator.canShare&&navigator.canShare({files:[f]})){btn.textContent=old;await navigator.share({files:[f],text:cap});return}
+  await dl.save({filename:"mana-singampalli.jpg",data:f});btn.textContent="✅ ఫోటో సేవ్, క్యాప్షన్ కాపీ — Instagram లో పోస్ట్ చేయండి";setTimeout(()=>btn.textContent=old,5000)}
+ catch(e){btn.textContent=old;if(e&&e.name=="AbortError")return;if(p.img)window.open(p.img,"_blank");else prompt("క్యాప్షన్ కాపీ చేయండి:",cap)}}
+function copyReg(b){const t=REGLINK(),o=b.textContent;navigator.clipboard.writeText(t).then(()=>{b.textContent="✅ కాపీ అయ్యింది";setTimeout(()=>b.textContent=o,2500)}).catch(()=>prompt("లింక్ కాపీ చేయండి:",t))}
+function regFooter(){let e=document.getElementById("rgl");if(!e){e=document.createElement("div");e.id="rgl";e.className="card";e.style.cssText="margin:14px 14px 4px;text-align:center";document.body.appendChild(e)}e.innerHTML='<p class="mu" style="margin:0 0 6px">📝 నమోదు లింక్ — ఊరి వాళ్ళకు పంపండి</p><a href="'+REGLINK()+'" style="word-break:break-all;color:var(--pr);font-weight:600">'+REGLINK()+'</a><div style="margin-top:10px"><button class="btn" onclick="copyReg(this)">📋 లింక్ కాపీ చేయి</button></div>'}
 const adm=()=>owner&&db;let ed=null,aPh="";
 function admRow(x){return adm()?`<div style="display:flex;gap:6px;margin:-4px 0 12px"><button class="btn s" style="flex:1" onclick="openAdm('${esc(x.phone)}')">✏️ ఎడిట్</button><button class="btn s" style="flex:1" onclick="delMem('${esc(x.phone)}',this)">🗑️ తొలగించు</button></div>`:""}
 function postAdm(ix){return adm()?`<button class="btn s" style="margin:-4px 0 12px;width:100%" onclick="delPost(${ix},this)">🗑️ ఈ పోస్ట్ తొలగించు</button>`:""}
@@ -95,14 +122,14 @@ return `<div class="act"><button class="${liked?'on':''}" onclick="likePost('${i
 async function likePost(id){if(!me){go("reg");return}const had=likes.some(l=>l.pid==id&&l.phone==me.phone);try{if(db){const k="likes/"+id+"_"+me.phone;if(had)await db.doc(k).delete();else await db.doc(k).set({pid:id,phone:me.phone,name:me.name,t:Date.now()})}else{likes=had?likes.filter(l=>!(l.pid==id&&l.phone==me.phone)):[...likes,{pid:id,phone:me.phone,name:me.name,t:Date.now()}];drawPosts()}}catch(e){}}
 function togC(id){openC[id]=!openC[id];drawPosts()}
 async function addC(id){const i=document.querySelector('.ci[data-p="'+id+'"]'),t=i?i.value.trim():"";if(!t||!me)return;const o={pid:id,name:me.name,phone:me.phone,text:t,t:Date.now()};delete cdraft[id];if(i)i.blur();try{if(db)await db.doc("comments/"+id+"_"+o.t+"_"+me.phone).set(o);else cmts.push(o)}catch(e){cdraft[id]=t}drawPosts()}
-async function shPost(ix,btn){const p=posts[ix];if(!p)return;const tx=p.type=="profile"?p.name+" — "+(p.cat||"సేవ")+"\n📞 "+p.phone:(p.text||""),txt=(tx?tx+"\n\n":"")+"#మనసింగంపల్లి @mana_singampalli",old=btn.textContent;try{if(navigator.share){await navigator.share({title:"మన సింగంపల్లి",text:txt});return}await navigator.clipboard.writeText(txt);btn.textContent="✅ కాపీ అయ్యింది";setTimeout(()=>btn.textContent=old,2500)}catch(e){if(e&&e.name=="AbortError")return;prompt("కాపీ చేసి షేర్ చేయండి:",txt)}}
-function drawPosts(){const e=$("#pl");if(!e)return;if(document.activeElement&&document.activeElement.classList.contains("ci"))return;e.innerHTML=posts.length?posts.map((p,ix)=>(p.type=="profile"?poster(p,1)+`<div class="card" style="margin-top:-4px">${actBar(p,ix)}</div>`:`<div class="card"><div class="row"><span class="row" style="justify-content:flex-start">${av({name:p.name,photo:(members.find(m=>m.phone==p.phone)||{}).photo})}<b>${esc(p.name)}</b></span><span class="mu">${new Date(p.t).toLocaleDateString("te-IN")}</span></div><p style="white-space:pre-wrap">${esc(p.text)}</p>${p.img?`<img class="pimg" src="${esc(p.img)}" alt=""><button class="btn ig" style="margin-top:8px;width:100%" onclick="sharePost(${ix},this)">📤 Instagram లో షేర్ చేయి</button>`:""}${actBar(p,ix)}</div>`)+postAdm(ix)).join(""):`<div class="card mu">ఇంకా పోస్టులు లేవు. మొదటి పోస్ట్ మీదే కావచ్చు!</div>`}
+async function shPost(ix,btn){const p=posts[ix];if(!p)return;const tx=p.type=="profile"?p.name+" — "+(p.cat||"సేవ")+"\n📞 "+p.phone:(p.text||""),txt=(tx?tx+"\n\n":"")+"📝 నమోదు: "+REGLINK()+"\n#మనసింగంపల్లి",old=btn.textContent;try{if(navigator.share){await navigator.share({title:"మన సింగంపల్లి",text:txt});return}await navigator.clipboard.writeText(txt);btn.textContent="✅ కాపీ అయ్యింది";setTimeout(()=>btn.textContent=old,2500)}catch(e){if(e&&e.name=="AbortError")return;prompt("కాపీ చేసి షేర్ చేయండి:",txt)}}
+function drawPosts(){const e=$("#pl");if(!e)return;if(document.activeElement&&document.activeElement.classList.contains("ci"))return;e.innerHTML=posts.some(p=>p.type!="profile")?posts.map((p,ix)=>p.type=="profile"?"":(`<div class="card"><div class="row"><span class="row" style="justify-content:flex-start">${av({name:p.name,photo:(members.find(m=>m.phone==p.phone)||{}).photo})}<b>${esc(p.name)}</b></span><span class="mu">${new Date(p.t).toLocaleDateString("te-IN")}</span></div><p style="white-space:pre-wrap">${esc(p.text)}</p>${p.img?`<img class="pimg" src="${esc(p.img)}" alt="">`:""}<button class="btn ig" style="margin-top:8px;width:100%" onclick="sharePost(${ix},this)">📤 Instagram లో షేర్ చేయి</button>${actBar(p,ix)}</div>`)+postAdm(ix)).join(""):`<div class="card mu">ఇంకా పోస్టులు లేవు. మొదటి పోస్ట్ మీదే కావచ్చు!</div>`}
 async function reg(){
  const n=$("#rn").value.trim(),p=$("#rp").value.trim(),c=$("#rc").value,d=$("#rd").value.trim();
  if(!n||!/^[6-9]\d{9}$/.test(p)){$("#rm").textContent="సరైన పేరు, 10 అంకెల భారత మొబైల్ నంబర్ ఇవ్వండి.";return}
  if(!photo){$("#rm").textContent="దయచేసి మీ ఫోటోను ఎంచుకోండి.";return}
  me={name:n,phone:p,cat:c,desc:d,photo,area:$("#rg").value.trim(),exp:$("#rx").value,avail:$("#ra").value,svcs:$("#rs").value.trim()};ls.set("ms_me",JSON.stringify(me));
- try{if(db){const t=Date.now();const sv=await db.doc("members/"+p).set({...me,t});await db.doc("posts/"+t+"_"+p).set({...me,photo:(sv&&sv.photo)||me.photo,type:"profile",text:"",t})}}catch(e){}
+ try{if(db){const t=Date.now();const sv=await db.doc("members/"+p).set({...me,t});}}catch(e){}
  go("feed")}
 async function addPost(){
  const t=$("#pt").value.trim();if(!t&&!pPhoto)return;
@@ -130,7 +157,7 @@ async function adminLogin(){
  ls.set("ms_adm",u.trim()+":"+p);
  try{await api({a:"login",c:"members",id:"x"});owner=true;render();admLink()}catch(e){ls.set("ms_adm","");alert("యూజర్ నేమ్ లేదా పాస్‌వర్డ్ తప్పు.")}}
 function admLink(){let e=document.getElementById("adl");if(!e){e=document.createElement("p");e.id="adl";e.style.cssText="text-align:center;font-size:12px;padding:12px 0 24px;opacity:.7;cursor:pointer";e.onclick=adminLogin;document.body.appendChild(e)}e.textContent=owner?"🔓 అడ్మిన్ లాగ్అవుట్":"🔐 అడ్మిన్ లాగిన్"}
-admLink();if(location.hash=="#admin"){history.replaceState(null,"",location.pathname);if(!owner)adminLogin()}
+regFooter();admLink();if(location.hash=="#reg")go("reg");if(location.hash=="#admin"){history.replaceState(null,"",location.pathname);if(!owner)adminLogin()}
 dl={async save({filename,data}){const b=data instanceof Blob?data:new Blob([data]);const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}};
 let sig="";
 async function poll(){try{const r=await(await fetch(API+"?a=list")).json();if(!r.ok)return;const s=JSON.stringify(r);if(s==sig)return;sig=s;members=r.members||[];posts=r.posts||[];likes=r.likes||[];cmts=r.comments||[];if(tab=="svc")render();else if(tab=="feed")drawPosts()}catch(e){}}
